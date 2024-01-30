@@ -15,6 +15,7 @@ A simple Blog posting site built using laravel and authentication and auth via b
 - Blog has crud functionalities
 - Blog features images
 - User login and registration
+- Supports pagination and search
 
 ## Requirements
 - Npm
