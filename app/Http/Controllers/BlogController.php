@@ -39,7 +39,7 @@ class BlogController extends Controller
     }
 
     public function getAllBlogs(Request $request){
-        $blogs = blog::orderBy('created_at', 'desc')->paginate(1);
+        $blogs = blog::orderBy('created_at', 'desc')->paginate(5);
 
         return view('blog.viewBlog',compact('blogs'));
     }
@@ -104,16 +104,16 @@ class BlogController extends Controller
         if($blog->userId!=auth()->id()){
             abort(403,'Unauthorized');
         }
-        if($blog->image){
-            $imagePath = $blog->image;
-            if (Storage::disk('public')->exists($imagePath)) {
-                try {
-                    Storage::disk('public')->delete($imagePath);
-                } catch (\Exception $e) {
-                    logger('Error deleting file: ' . $e->getMessage());
-                }
-            }
-        }
+        // if($blog->image){
+        //     $imagePath = $blog->image;
+        //     if (Storage::disk('public')->exists($imagePath)) {
+        //         try {
+        //             Storage::disk('public')->delete($imagePath);
+        //         } catch (\Exception $e) {
+        //             logger('Error deleting file: ' . $e->getMessage());
+        //         }
+        //     }
+        // }
         $blog->delete();
         return redirect()->route('blogs.viewMy')->with('success','Blog deleted successfully');
     }
@@ -123,7 +123,7 @@ class BlogController extends Controller
         $query = $request->input('queryy','');
         $blogs = blog::where('title','like',"%$query%")
                     ->orderBy('created_at','desc')
-                    ->paginate(1);
+                    ->paginate(3);
         logger($blogs);
         return view('blog.viewBlog',compact('blogs'));
     }
